@@ -1,5 +1,6 @@
 import { Renderer, Time } from './rendering';
 import { Rectangle, Label } from './graphics';
+import { Keyboard, Keys } from './inputs';
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector('canvas');
 canvas.width = window.innerWidth;
@@ -7,7 +8,7 @@ canvas.height = window.innerHeight;
 
 const renderer: Renderer = new Renderer(<CanvasRenderingContext2D>canvas.getContext('2d'));
 
-const rect = new Rectangle({
+const rect: Rectangle = new Rectangle({
   x: canvas.width / 2,
   y: canvas.height / 2,
   width: 500,
@@ -18,8 +19,7 @@ const rect = new Rectangle({
   lineWidth: 8
 });
 
-const text = new Label({
-  text: 'Shapeton',
+const text: Label = new Label({
   x: rect.getX(),
   y: rect.getY(),
   fontFamily: 'Roboto',
@@ -30,5 +30,17 @@ const text = new Label({
 
 renderer.addGraphic(rect);
 renderer.addGraphic(text);
+
+renderer.update(() => {
+  if (Keyboard.keysDown([Keys.Enter, Keys.Ctrl])) {
+    text.setText('Ctrl + Enter');
+  } else if (Keyboard.keyDown(Keys.Ctrl)) {
+    text.setText('Ctrl');
+  } else if (Keyboard.keyDown(Keys.Enter)) {
+    text.setText('Enter');
+  } else {
+    text.setText('');
+  }
+});
 
 renderer.start();

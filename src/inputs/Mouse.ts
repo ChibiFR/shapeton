@@ -2,14 +2,14 @@ export type Cursor = { x: number, y: number };
 
 export abstract class Mouse {
   protected static cursor: Cursor;
-  protected static buttonDown: boolean;
+  protected static _buttonDown: boolean;
 
   public static _init(): void {
     this.cursor = {
       x: window.innerWidth / 2,
       y: window.innerHeight / 2
     };
-    this.buttonDown = false;
+    this._buttonDown = false;
 
     // Mouse events
     window.addEventListener('mousemove', (e: MouseEvent): void => {
@@ -18,16 +18,16 @@ export abstract class Mouse {
     });
 
     window.addEventListener('mousedown', (e: MouseEvent): void => {
-      this.buttonDown = e.button === 0;
+      this._buttonDown = e.button === 0;
     });
 
     window.addEventListener('mouseup', (e: MouseEvent): void => {
-      this.buttonDown = e.button === 0;
+      this._buttonDown = e.button === 0;
     });
 
     // Touch events
     window.addEventListener('touchstart', (e: TouchEvent): void => {
-      this.buttonDown = true;
+      this._buttonDown = true;
     });
 
     window.addEventListener('touchmove', (e: TouchEvent): void => {
@@ -35,7 +35,7 @@ export abstract class Mouse {
     });
 
     window.addEventListener('touchend', (e: TouchEvent): void => {
-      this.buttonDown = false;
+      this._buttonDown = false;
     });
   }
 
@@ -51,8 +51,8 @@ export abstract class Mouse {
     return this.cursor.y;
   }
 
-  public static isButtonDown(): boolean {
-    return this.buttonDown;
+  public static buttonDown(): boolean {
+    return this._buttonDown;
   }
 }
 
