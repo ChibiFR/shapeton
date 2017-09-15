@@ -41,10 +41,16 @@ export class Renderer {
       update();
     }
 
+    for (const graphic of this.graphics) {
+      graphic._update();
+    }
+
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
     for (const graphic of this.graphics) {
-      graphic.draw(this.context);
+      if (!graphic.isVisible()) continue;
+      
+      graphic._draw(this.context);
     }
 
     this.animationFrame = requestAnimationFrame((frame: number) => {
