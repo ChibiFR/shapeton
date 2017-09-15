@@ -1,10 +1,11 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
 import { ICollider, CollisionTypes } from './Collider';
+import { Colour } from './Colour';
 
 export interface CircleOptions extends GraphicOptions {
   size?: number;
   fill?: boolean;
-  colour?: string;
+  colour?: Colour;
   lineWidth?: number;
 }
 
@@ -12,7 +13,7 @@ export class Circle extends Graphic implements IGraphic, ICollider {
   protected readonly collisionType: CollisionTypes;
   protected size: number;
   protected fill: boolean;
-  protected colour: string;
+  protected colour: Colour;
   protected lineWidth: number;
 
   constructor(options?: CircleOptions) {
@@ -22,7 +23,7 @@ export class Circle extends Graphic implements IGraphic, ICollider {
     this.collisionType = CollisionTypes.Circle;
     this.size = options.size || 50;
     this.fill = options.fill !== undefined ? options.fill : true;
-    this.colour = options.colour || '#000000';
+    this.colour = options.colour || new Colour();
     this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
   }
 
@@ -46,11 +47,11 @@ export class Circle extends Graphic implements IGraphic, ICollider {
     this.fill = fill !== undefined ? fill : true;
   }
 
-  public getColour(): string {
+  public getColour(): Colour {
     return this.colour;
   }
 
-  public setColour(colour: string): void {
+  public setColour(colour: Colour): void {
     this.colour = colour;
   }
 
@@ -99,10 +100,10 @@ export class Circle extends Graphic implements IGraphic, ICollider {
     context.arc(this.x, this.y, this.size / 2, 0, 2 * Math.PI);
 
     if (this.fill) {
-      context.fillStyle = this.colour;
+      context.fillStyle = this.colour.toRGBAString();
       context.fill();
     } else {
-      context.strokeStyle = this.colour;
+      context.strokeStyle = this.colour.toRGBAString();
       context.lineWidth = this.lineWidth;
       context.stroke();
     }

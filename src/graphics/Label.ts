@@ -1,4 +1,5 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
+import { Colour } from './Colour';
 
 export type FontStyle = 'normal'|'italic'|'oblique';
 export type FontVariant = 'normal'|'small-caps';
@@ -14,7 +15,7 @@ export interface LabelOptions extends GraphicOptions {
   fontFamily?: string;
   maxWidth?: LabelMaxWidth;
   fill?: boolean;
-  colour?: string;
+  colour?: Colour;
 }
 
 export class Label extends Graphic implements IGraphic {
@@ -26,7 +27,7 @@ export class Label extends Graphic implements IGraphic {
   protected fontFamily: string;
   protected maxWidth: LabelMaxWidth;
   protected fill: boolean;
-  protected colour: string;
+  protected colour: Colour;
 
   constructor(options?: LabelOptions) {
     options = options || {};
@@ -40,7 +41,7 @@ export class Label extends Graphic implements IGraphic {
     this.fontFamily = options.fontFamily || 'Arial';
     this.maxWidth = options.maxWidth !== undefined ? options.maxWidth : 'auto';
     this.fill = options.fill !== undefined ? options.fill : true;
-    this.colour = options.colour || '#000000';
+    this.colour = options.colour || new Colour();
   }
 
   public getText(): string {
@@ -103,11 +104,11 @@ export class Label extends Graphic implements IGraphic {
     this.fill = fill !== undefined ? fill : true;
   }
 
-  public getColour(): string {
+  public getColour(): Colour {
     return this.colour;
   }
 
-  public setColour(colour: string): void {
+  public setColour(colour: Colour): void {
     this.colour = colour;
   }
 
@@ -121,10 +122,10 @@ export class Label extends Graphic implements IGraphic {
   );
 
     if (this.fill) {
-      context.fillStyle = this.colour;
+      context.fillStyle = this.colour.toRGBAString();
       context.fillText(this.text, this.x, this.y, maxWidth);
     } else {
-      context.strokeStyle = this.colour;
+      context.strokeStyle = this.colour.toRGBAString();
       context.strokeText(this.text, this.x, this.y, maxWidth);
     }
   }

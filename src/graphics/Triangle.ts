@@ -1,11 +1,12 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
+import { Colour } from './Colour';
 
 export interface TriangleOptions extends GraphicOptions {
   width?: number;
   height?: number;
   radius?: number;
   fill?: boolean;
-  colour?: string;
+  colour?: Colour;
   lineWidth?: number;
 }
 
@@ -14,7 +15,7 @@ export class Triangle extends Graphic implements IGraphic {
   protected height: number;
   protected radius: number;
   protected fill: boolean;
-  protected colour: string;
+  protected colour: Colour;
   protected lineWidth: number;
 
   constructor(options?: TriangleOptions) {
@@ -26,7 +27,7 @@ export class Triangle extends Graphic implements IGraphic {
     this.height = options.height || 150;
     this.radius = options.radius || 0;
     this.fill = options.fill !== undefined ? options.fill : true;
-    this.colour = options.colour || '#000000';
+    this.colour = options.colour || new Colour();
     this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
   }
 
@@ -70,11 +71,11 @@ export class Triangle extends Graphic implements IGraphic {
     this.fill = fill !== undefined ? fill : true;
   }
 
-  public getColour(): string {
+  public getColour(): Colour {
     return this.colour;
   }
 
-  public setColour(colour: string) {
+  public setColour(colour: Colour) {
     return this.colour;
   }
 
@@ -122,11 +123,11 @@ export class Triangle extends Graphic implements IGraphic {
     context.closePath();
 
     if (this.fill) {
-      context.fillStyle = this.colour;
+      context.fillStyle = this.colour.toRGBAString();
       context.fill();
     } else {
       context.lineWidth = this.lineWidth;
-      context.strokeStyle = this.colour;
+      context.strokeStyle = this.colour.toRGBAString();
       context.stroke();
     }
   }

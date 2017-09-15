@@ -1,12 +1,13 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
 import { ICollider, CollisionTypes } from './Collider'
+import { Colour } from './Colour';
 
 export interface RectangleOptions extends GraphicOptions {
   width?: number;
   height?: number;
   radius?: number;
   fill?: boolean;
-  colour?: string;
+  colour?: Colour;
   lineWidth?: number;
 }
 
@@ -16,7 +17,7 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
   protected height: number;
   protected radius: number;
   protected fill: boolean;
-  protected colour: string;
+  protected colour: Colour;
   protected lineWidth: number;
 
   constructor(options?: RectangleOptions) {
@@ -29,7 +30,7 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
     this.height = options.height || 150;
     this.radius = options.radius || 0;
     this.fill = options.fill !== undefined ? options.fill : true;
-    this.colour = options.colour || '#000000';
+    this.colour = options.colour || new Colour();
     this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
   }
   
@@ -77,11 +78,11 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
     this.fill = fill !== undefined ? fill : true;
   }
   
-  public getColour(): string {
+  public getColour(): Colour {
     return this.colour;
   }
 
-  public setColour(colour: string): void {
+  public setColour(colour: Colour): void {
     this.colour = colour;
   }
 
@@ -119,11 +120,11 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
 
   protected _drawRect(context: CanvasRenderingContext2D): void {
     if (this.fill) {
-      context.fillStyle = this.colour;
+      context.fillStyle = this.colour.toRGBAString();
       context.fillRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     } else {
       context.lineWidth = this.lineWidth;
-      context.strokeStyle = this.colour;
+      context.strokeStyle = this.colour.toRGBAString();
       context.strokeRect(this.x - this.width / 2, this.y - this.height / 2, this.width, this.height);
     }
   }
@@ -148,11 +149,11 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
     context.arcTo(x0, y0, x0 + this.radius, y0, this.radius);
 
     if (this.fill) {
-      context.fillStyle = this.colour;
+      context.fillStyle = this.colour.toRGBAString();
       context.fill();
     } else {
       context.lineWidth = this.lineWidth;
-      context.strokeStyle = this.colour;
+      context.strokeStyle = this.colour.toRGBAString();
       context.stroke();
     }
   }
