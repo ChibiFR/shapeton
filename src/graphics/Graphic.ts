@@ -1,12 +1,12 @@
 export type UpdateFunction = () => void;
 
 export interface IGraphic {
-  getX: () => number;
-  getY: () => number;
-  isVisible: () => boolean;
-  update: (update: UpdateFunction) => void;
-  _update: () => void;
-  _draw: (context: CanvasRenderingContext2D) => void;
+  getX(): number;
+  getY(): number;
+  isVisible(): boolean;
+  update(update: UpdateFunction): void;
+  _update(): void;
+  _draw(context: CanvasRenderingContext2D): void;
 };
 
 export interface GraphicOptions {
