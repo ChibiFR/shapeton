@@ -8,13 +8,7 @@ canvas.height = window.innerHeight;
 
 const renderer: Renderer = new Renderer(<CanvasRenderingContext2D>canvas.getContext('2d'));
 
-const lighter: Colour = new Colour({
-  red: 0xff,
-  green: 0x88,
-  blue: 0xff
-});
-
-const darker: Colour = new Colour({
+const purple: Colour = new Colour({
   red: 0xff,
   green: 0x00,
   blue: 0xff
@@ -32,7 +26,7 @@ const rect: Rectangle = new Rectangle({
   width: 500,
   height: 300,
   radius: 40,
-  colour: lighter,
+  colour: purple,
   fill: false,
   lineWidth: 8
 });
@@ -73,9 +67,41 @@ renderer.update(() => {
   }
 
   if (Mouse.hover(rect)) {
-    rect.setColour(darker);
+    canvas.style.cursor = 'pointer';
+
+    rect.setWidth(rect.getWidth() + 0.6 * Time.getDeltaTime());
+    rect.setHeight(rect.getHeight() + 0.6 * Time.getDeltaTime());
+    text.setFontSize(text.getFontSize() + 0.6 * Time.getDeltaTime());
+    
+    if (rect.getWidth() > 500 * 1.1) {
+      rect.setWidth(500 * 1.1);
+    }
+
+    if (rect.getHeight() > 300 * 1.1) {
+      rect.setHeight(300 * 1.1);
+    }
+
+    if (text.getFontSize() > 82 * 1.1) {
+      text.setFontSize(82 * 1.1);
+    }
   } else {
-    rect.setColour(lighter);
+    canvas.style.cursor = 'default';
+
+    rect.setWidth(rect.getWidth() - 0.6 * Time.getDeltaTime());
+    rect.setHeight(rect.getHeight() - 0.6 * Time.getDeltaTime());
+    text.setFontSize(text.getFontSize() - 0.6 * Time.getDeltaTime());
+
+    if (rect.getWidth() < 500) {
+      rect.setWidth(500);
+    }
+
+    if (rect.getHeight() < 300) {
+      rect.setHeight(300);
+    }
+
+    if (text.getFontSize() < 82) {
+      text.setFontSize(82);
+    }
   }
 
   fps.setText(`FPS: ${Math.round(1000 / Time.getDeltaTime())}`);
