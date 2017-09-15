@@ -13,7 +13,9 @@ export abstract class Graphic implements IGraphic {
   protected x: number;
   protected y: number;
 
-  constructor(options: GraphicOptions) {
+  constructor(options?: GraphicOptions) {
+    options = options || {};
+
     this.x = options.x || 0;
     this.y = options.y || 0;
   }

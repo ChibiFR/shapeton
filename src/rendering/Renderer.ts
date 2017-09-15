@@ -10,6 +10,7 @@ export class Renderer {
   constructor(context: CanvasRenderingContext2D) {
     this.context = context;
     this.updates = [];
+    this.graphics = [];
     this.animationFrame = 0;
   }
 
@@ -43,7 +44,7 @@ export class Renderer {
     this.context.clearRect(0, 0, this.context.canvas.width, this.context.canvas.height);
 
     for (const graphic of this.graphics) {
-      graphic.draw(context);
+      graphic.draw(this.context);
     }
 
     this.animationFrame = requestAnimationFrame((frame: number) => {

@@ -1,49 +1,32 @@
-const canvas: HTMLCanvasElement =  <HTMLCanvasElement>document.querySelector('canvas');
-const context: CanvasRenderingContext2D = <CanvasRenderingContext2D>canvas.getContext('2d');
+import { Renderer, Time } from './rendering';
+import { Graphic, IGraphic } from './graphics';
 
+const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector('canvas');
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-context.strokeStyle = '#000000';
-context.lineWidth = 4;
+const renderer: Renderer = new Renderer(<CanvasRenderingContext2D>canvas.getContext('2d'));
 
-context.beginPath();
-context.moveTo(canvas.width / 2 - 50 + 20, canvas.height / 2 - 25);
+class Text extends Graphic implements IGraphic {
+  public draw(context: CanvasRenderingContext2D): void {
+    context.fillStyle = '#FF00FF';
+    context.font = '64px Roboto';
+    context.textBaseline = 'middle';
+    context.textAlign = 'center';
+    context.fillText(timeElapsed, this.x, this.y);
+  }
+}
 
-context.lineTo(canvas.width / 2 + 50 - 20, canvas.height / 2 - 25);
-context.arcTo(
-  canvas.width / 2 + 50,
-  canvas.height / 2 - 25,
-  canvas.width / 2 + 50,
-  canvas.height / 2 - 25 + 20,
-  20
-);
+let timeElapsed: string = '0ms elapsed.';
+let text: Text = new Text({
+  x: canvas.width / 2,
+  y: canvas.height / 2
+});
 
-context.lineTo(canvas.width / 2 + 50, canvas.height / 2 + 25 - 20);
-context.arcTo(
-  canvas.width / 2 + 50,
-  canvas.height / 2 + 25,
-  canvas.width / 2 + 50 - 20,
-  canvas.height / 2 + 25,
-  20
-);
+renderer.update(() => {
+  timeElapsed = `${Math.round(Time.getTime())}ms elapsed.`;
+});
 
-context.lineTo(canvas.width / 2 - 50 + 20, canvas.height / 2 + 25);
-context.arcTo(
-  canvas.width / 2 - 50,
-  canvas.height / 2 + 25,
-  canvas.width / 2 - 50,
-  canvas.height / 2 + 25 - 20,
-  20
-);
+renderer.addGraphic(text);
 
-context.lineTo(canvas.width / 2 - 50, canvas.height / 2 - 25 + 20);
-context.arcTo(
-  canvas.width / 2 - 50,
-  canvas.height / 2 - 25,
-  canvas.width / 2 - 50 + 20,
-  canvas.height / 2 - 25,
-  20
-);
-
-context.stroke();
+renderer.start();
