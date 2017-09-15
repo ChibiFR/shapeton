@@ -7,6 +7,7 @@ export abstract class Keyboard {
 
   public static _init(): void {
     this.keys = new Map<boolean>();
+    this.preventDefaults = [];
 
     window.addEventListener('keydown', (e: KeyboardEvent): void => {
       this.keys.set(e.keyCode, true);
