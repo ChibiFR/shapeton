@@ -1,5 +1,5 @@
 import { Renderer, Time } from './rendering';
-import { Triangle } from './graphics';
+import { Rectangle, Label } from './graphics';
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector('canvas');
 canvas.width = window.innerWidth;
@@ -7,26 +7,28 @@ canvas.height = window.innerHeight;
 
 const renderer: Renderer = new Renderer(<CanvasRenderingContext2D>canvas.getContext('2d'));
 
-const triangle0: Triangle = new Triangle({
+const rect = new Rectangle({
   x: canvas.width / 2,
   y: canvas.height / 2,
-  width: 400,
-  height: 400,
-  fill: false,
-  lineWidth: 8,
+  width: 500,
+  height: 300,
+  radius: 40,
   colour: '#FF00FF',
-  radius: 15
+  fill: false,
+  lineWidth: 8
 });
 
-const triangle1: Triangle = new Triangle({
-  width: 60,
-  height: 80
+const text = new Label({
+  text: 'Shapeton',
+  x: rect.getX(),
+  y: rect.getY(),
+  fontFamily: 'Roboto',
+  fontSize: 82,
+  fontWeight: 'lighter',
+  colour: '#222222'
 });
 
-triangle1.setRelativeX(20);
-triangle1.setRelativeY(20);
-
-renderer.addGraphic(triangle0);
-renderer.addGraphic(triangle1);
+renderer.addGraphic(rect);
+renderer.addGraphic(text);
 
 renderer.start();

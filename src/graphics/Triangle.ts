@@ -112,7 +112,7 @@ export class Triangle extends Graphic implements IGraphic {
       y1: this.y + this.height / 2,
       x2: this.x - this.width / 4,
       y2: this.y
-    }
+    };
 
     context.beginPath();
     context.moveTo(x0, y0);
