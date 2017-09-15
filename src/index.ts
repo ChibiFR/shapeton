@@ -32,9 +32,12 @@ renderer.addGraphic(rect);
 renderer.addGraphic(text);
 
 renderer.update(() => {
-  if (Keyboard.keysDown([Keys.Enter, Keys.Ctrl])) {
+  if (
+    Keyboard.keysDown([Keys.Enter, Keys.ControlLeft]) ||
+    Keyboard.keysDown([Keys.Enter, Keys.ControlRight])
+  ) {
     text.setText('Ctrl + Enter');
-  } else if (Keyboard.keyDown(Keys.Ctrl)) {
+  } else if (Keyboard.keyDown(Keys.ControlLeft) || Keyboard.keyDown(Keys.ControlRight)) {
     text.setText('Ctrl');
   } else if (Keyboard.keyDown(Keys.Enter)) {
     text.setText('Enter');

@@ -10,18 +10,18 @@ export abstract class Keyboard {
     this.preventDefaults = [];
 
     window.addEventListener('keydown', (e: KeyboardEvent): void => {
-      this.keys.set(e.keyCode, true);
+      this.keys.set(e.code, true);
 
       for (const preventDefault of this.preventDefaults) {
-        if (preventDefault === e.keyCode) e.preventDefault();
+        if (preventDefault === e.code) e.preventDefault();
       }
     });
 
     window.addEventListener('keyup', (e: KeyboardEvent): void => {
-      this.keys.set(e.keyCode, false);
+      this.keys.set(e.code, false);
 
       for (const preventDefault of this.preventDefaults) {
-        if (preventDefault === e.keyCode) e.preventDefault();
+        if (preventDefault === e.code) e.preventDefault();
       }
     });
 
