@@ -66,30 +66,36 @@ renderer.update(() => {
     text.setText('');
   }
 
+  const { w, h, s }: { [key: string]: number } = {
+    w: rect.getWidth(),
+    h: rect.getHeight(),
+    s: text.getFontSize()
+  };
+
   if (Mouse.hover(rect)) {
     canvas.style.cursor = 'pointer';
 
-    rect.setWidth(rect.getWidth() + 0.6 * Time.getDeltaTime());
-    rect.setHeight(rect.getHeight() + 0.6 * Time.getDeltaTime());
-    text.setFontSize(text.getFontSize() + 0.6 * Time.getDeltaTime());
-    
-    if (rect.getWidth() > 500 * 1.1) {
-      rect.setWidth(500 * 1.1);
+    rect.setWidth(w + 532 * Time.getDeltaTime());
+    rect.setHeight(h + 320 * Time.getDeltaTime());
+    text.setFontSize(s + 87 * Time.getDeltaTime());
+
+    if (rect.getWidth() > 532) {
+      rect.setWidth(540);
     }
 
-    if (rect.getHeight() > 300 * 1.1) {
-      rect.setHeight(300 * 1.1);
+    if (rect.getHeight() > 320) {
+      rect.setHeight(320);
     }
 
-    if (text.getFontSize() > 82 * 1.1) {
-      text.setFontSize(82 * 1.1);
+    if (text.getFontSize() > 87) {
+      text.setFontSize(87);
     }
   } else {
     canvas.style.cursor = 'default';
 
-    rect.setWidth(rect.getWidth() - 0.6 * Time.getDeltaTime());
-    rect.setHeight(rect.getHeight() - 0.6 * Time.getDeltaTime());
-    text.setFontSize(text.getFontSize() - 0.6 * Time.getDeltaTime());
+    rect.setWidth(w - 500 * Time.getDeltaTime());
+    rect.setHeight(h - 300 * Time.getDeltaTime());
+    text.setFontSize(s - 82 * Time.getDeltaTime());
 
     if (rect.getWidth() < 500) {
       rect.setWidth(500);
@@ -104,7 +110,7 @@ renderer.update(() => {
     }
   }
 
-  fps.setText(`FPS: ${Math.round(1000 / Time.getDeltaTime())}`);
+  fps.setText(`FPS: ${Math.round(1000 / Time.getDeltaTime('ms'))}`);
 });
 
 renderer.start();
