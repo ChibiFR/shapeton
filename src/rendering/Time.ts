@@ -11,7 +11,7 @@ export abstract class Time {
   }
 
   public static _setFrame(frame: number): void {
-    this.deltaTime - frame - this.time;
+    this.deltaTime = frame - this.time;
     this.time = frame;
   }
 }
