@@ -122,7 +122,7 @@ export class Rectangle extends Graphic implements IGraphic {
   }
 
   protected _drawRoundedRect(context: CanvasRenderingContext2D): void {
-    const { x0, x1, y0, y1 } = {
+    const { x0, x1, y0, y1 }: { [key: string]: number } = {
       x0: this.x - this.width / 2,
       x1: this.x + this.width / 2,
       y0: this.y - this.height / 2,
