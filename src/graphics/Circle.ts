@@ -55,6 +55,30 @@ export class Circle extends Graphic implements IGraphic {
     this.lineWidth = lineWidth;
   }
 
+  public getRadius(): number {
+    return this.size / 2;
+  }
+
+  public setRadius(radius: number): void {
+    this.size = radius * 2;
+  }
+
+  public getRelativeX(): number {
+    return this.x - this.size / 2;
+  }
+
+  public setRelativeX(relativeX: number): void {
+    this.x = relativeX + this.size / 2;
+  }
+
+  public getRelativeY(): number {
+    return this.y - this.size / 2;
+  }
+
+  public setRelativeY(relativeY: number): void {
+    this.y = relativeY + this.size * 2;
+  }
+
   public _draw(context: CanvasRenderingContext2D): void {
     context.beginPath();
     context.arc(this.x, this.y, this.size / 2, 0, 2 * Math.PI);
