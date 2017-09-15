@@ -1,6 +1,6 @@
 import { Renderer, Time } from './rendering';
 import { Rectangle, Label } from './graphics';
-import { Keyboard, Keys } from './inputs';
+import { Keyboard, Keys, Mouse } from './inputs';
 
 const canvas: HTMLCanvasElement = <HTMLCanvasElement>document.querySelector('canvas');
 canvas.width = window.innerWidth;
@@ -32,17 +32,23 @@ renderer.addGraphic(rect);
 renderer.addGraphic(text);
 
 renderer.update(() => {
-  if (
-    Keyboard.keysDown([Keys.Enter, Keys.ControlLeft]) ||
-    Keyboard.keysDown([Keys.Enter, Keys.ControlRight])
-  ) {
+  const ctrl = Keyboard.keyDown(Keys.ControlLeft) || Keyboard.keyDown(Keys.ControlRight);
+  const enter = Keyboard.keyDown(Keys.Enter) || Keyboard.keyDown(Keys.NumpadEnter);
+
+  if (ctrl && enter) {
     text.setText('Ctrl + Enter');
-  } else if (Keyboard.keyDown(Keys.ControlLeft) || Keyboard.keyDown(Keys.ControlRight)) {
+  } else if (ctrl) {
     text.setText('Ctrl');
-  } else if (Keyboard.keyDown(Keys.Enter)) {
+  } else if (enter) {
     text.setText('Enter');
   } else {
     text.setText('');
+  }
+
+  if (Mouse.hover(rect)) {
+    rect.setColour('#FF00FF');
+  } else {
+    rect.setColour('#FF88FF');
   }
 });
 
