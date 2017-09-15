@@ -1,5 +1,5 @@
 import { Time } from './Time';
-import { Graphic } from './Graphic';
+import { Graphic } from '../graphics';
 
 export class Renderer {
   protected context: CanvasRenderingContext2D;
