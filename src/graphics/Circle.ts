@@ -1,4 +1,5 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
+import { ICollider, CollisionTypes } from './Collider';
 
 export interface CircleOptions extends GraphicOptions {
   size?: number;
@@ -7,7 +8,8 @@ export interface CircleOptions extends GraphicOptions {
   lineWidth?: number;
 }
 
-export class Circle extends Graphic implements IGraphic {
+export class Circle extends Graphic implements IGraphic, ICollider {
+  protected readonly collisionType: CollisionTypes;
   protected size: number;
   protected fill: boolean;
   protected colour: string;
@@ -17,10 +19,15 @@ export class Circle extends Graphic implements IGraphic {
     options = options || {};
 
     super(options);
+    this.collisionType = CollisionTypes.Circle;
     this.size = options.size || 50;
     this.fill = options.fill !== undefined ? options.fill : true;
     this.colour = options.colour || '#000000';
-    this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 1;
+    this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
+  }
+
+  public getCollisionType(): CollisionTypes {
+    return this.collisionType;
   }
 
   public getSize(): number {
@@ -77,6 +84,14 @@ export class Circle extends Graphic implements IGraphic {
 
   public setRelativeY(relativeY: number): void {
     this.y = relativeY + this.size * 2;
+  }
+
+  public getWidth(): number {
+    return this.size;
+  }
+
+  public getHeight(): number {
+    return this.size;
   }
 
   public _draw(context: CanvasRenderingContext2D): void {

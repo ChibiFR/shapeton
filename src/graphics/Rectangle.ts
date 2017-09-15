@@ -1,4 +1,5 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
+import { ICollider, CollisionTypes } from './Collider'
 
 export interface RectangleOptions extends GraphicOptions {
   width?: number;
@@ -9,7 +10,8 @@ export interface RectangleOptions extends GraphicOptions {
   lineWidth?: number;
 }
 
-export class Rectangle extends Graphic implements IGraphic {
+export class Rectangle extends Graphic implements IGraphic, ICollider {
+  protected readonly collisionType: CollisionTypes;
   protected width: number;
   protected height: number;
   protected radius: number;
@@ -22,14 +24,19 @@ export class Rectangle extends Graphic implements IGraphic {
 
     super(options);
 
+    this.collisionType = CollisionTypes.Rectangle;
     this.width = options.width || 200;
     this.height = options.height || 150;
     this.radius = options.radius || 0;
     this.fill = options.fill !== undefined ? options.fill : true;
     this.colour = options.colour || '#000000';
-    this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 1;
+    this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
   }
   
+  public getCollisionType(): CollisionTypes {
+    return this.collisionType;
+  }
+
   public setX(x: number): void {
     this.x = x;
   }
@@ -74,8 +81,8 @@ export class Rectangle extends Graphic implements IGraphic {
     return this.colour;
   }
 
-  public setColour(colour: string) {
-    return this.colour;
+  public setColour(colour: string): void {
+    this.colour = colour;
   }
 
   public getLineWidth(): number {

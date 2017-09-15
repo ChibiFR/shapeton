@@ -27,7 +27,7 @@ export class Triangle extends Graphic implements IGraphic {
     this.radius = options.radius || 0;
     this.fill = options.fill !== undefined ? options.fill : true;
     this.colour = options.colour || '#000000';
-    this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 1;
+    this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
   }
 
   public setX(x: number): void {
