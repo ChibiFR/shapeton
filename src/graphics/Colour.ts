@@ -92,13 +92,15 @@ export class Colour {
     };
   }
 
-  public fromJSON(colour: RGBColour|RGBAColour): void {
+  public fromJSON(colour: RGBColour|RGBAColour): this {
     this.red = this.clampColour(colour.r);
     this.green = this.clampColour(colour.g);
     this.blue = this.clampColour(colour.b);
     this.alpha = (
       this.clampAlpha((<RGBAColour>colour).a !== undefined ? (<RGBAColour>colour).a : 1)
     );
+
+    return this;
   }
 
   protected clampColour(colour: number): number {
