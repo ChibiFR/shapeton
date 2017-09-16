@@ -1,3 +1,5 @@
+import { FontMetrix } from '../utils';
+
 export type FontStyle = 'normal'|'italic'|'oblique';
 export type FontVariant = 'normal'|'small-caps';
 export type FontWeight = 'normal'|'bold'|'bolder'|'lighter'|100|200|300|400|500|600|700|800|900;
@@ -73,6 +75,10 @@ export class Font {
 
   public setFamily(family: string): void {
     this.family = family;
+  }
+  
+  public measure(text: string): number {
+    return FontMetrix.measure(text, this);
   }
 
   public toString(): string {

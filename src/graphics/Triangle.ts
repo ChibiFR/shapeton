@@ -1,4 +1,6 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
+import { Animation } from './Animation';
+import { IAnimatable, Animator } from './Animator';
 import { Colour } from './Colour';
 
 export interface TriangleOptions extends GraphicOptions {
@@ -10,13 +12,14 @@ export interface TriangleOptions extends GraphicOptions {
   lineWidth?: number;
 }
 
-export class Triangle extends Graphic implements IGraphic {
+export class Triangle extends Graphic implements IGraphic, IAnimatable {
   protected width: number;
   protected height: number;
   protected radius: number;
   protected fill: boolean;
   protected colour: Colour;
   protected lineWidth: number;
+  protected animator: Animator;
 
   constructor(options?: TriangleOptions) {
     options = options || {};
@@ -29,6 +32,7 @@ export class Triangle extends Graphic implements IGraphic {
     this.fill = options.fill !== undefined ? options.fill : true;
     this.colour = options.colour || new Colour();
     this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
+    this.animator = new Animator();
   }
 
   public setX(x: number): void {
@@ -103,7 +107,33 @@ export class Triangle extends Graphic implements IGraphic {
     this.y = relativeY + this.height / 2;
   }
 
+  public getAnimator(): Animator {
+    return this.animator;
+  }
+  
+  public setAnimator(animator: Animator): void {
+    this.animator = animator;
+  }
+
+  public getAnimation(animationName: string): Animation {
+    let animation: Animation|null = this.animator.getAnimation(animationName);
+
+    if (animation === null) {
+      animation = new Animation(0, 0, 0, 0, 0);
+
+      this.animator.setAnimation('', animation);
+    }
+
+    return animation;
+  }
+
+  public setAnimation(animationName: string, animation: Animation): void {
+    this.animator.setAnimation(animationName, animation);
+  }
+
   public _draw(context: CanvasRenderingContext2D): void {
+    this.animator.animate(this);
+    
     const { rx, ry, x0, y0, x1, y1, x2, y2 }: { [key: string]: number } = {
       rx: this.x,
       ry: this.y,

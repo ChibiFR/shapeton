@@ -1,5 +1,7 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
 import { ICollider, CollisionTypes } from './Collider'
+import { Animation } from './Animation';
+import { IAnimatable, Animator } from './Animator';
 import { Colour } from './Colour';
 
 export interface RectangleOptions extends GraphicOptions {
@@ -11,7 +13,7 @@ export interface RectangleOptions extends GraphicOptions {
   lineWidth?: number;
 }
 
-export class Rectangle extends Graphic implements IGraphic, ICollider {
+export class Rectangle extends Graphic implements IGraphic, ICollider, IAnimatable {
   protected readonly collisionType: CollisionTypes;
   protected width: number;
   protected height: number;
@@ -19,6 +21,7 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
   protected fill: boolean;
   protected colour: Colour;
   protected lineWidth: number;
+  protected animator: Animator;
 
   constructor(options?: RectangleOptions) {
     options = options || {};
@@ -32,6 +35,7 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
     this.fill = options.fill !== undefined ? options.fill : true;
     this.colour = options.colour || new Colour();
     this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
+    this.animator = new Animator();
   }
   
   public getCollisionType(): CollisionTypes {
@@ -110,7 +114,32 @@ export class Rectangle extends Graphic implements IGraphic, ICollider {
     this.y = relativeY + this.height / 2;
   }
 
+  public getAnimator(): Animator {
+    return this.animator;
+  }
+
+  public setAnimator(animator: Animator): void {
+    this.animator = animator;
+  }
+
+  public getAnimation(animationName: string): Animation {
+    let animation: Animation|null = this.animator.getAnimation(animationName);
+
+    if (animation === null) {
+      animation = new Animation(0, 0, 0, 0, 0);
+
+      this.animator.setAnimation('', animation);
+    }
+
+    return animation;
+  }
+
+  public setAnimation(animationName: string, animation: Animation): void {
+    this.animator.setAnimation(animationName, animation);
+  }
+
   public _draw(context: CanvasRenderingContext2D): void {
+    this.animator.animate(this);
     if (this.radius === 0) {
       this._drawRect(context);
     } else {

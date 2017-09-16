@@ -1,5 +1,7 @@
 import { Graphic, IGraphic, GraphicOptions } from './Graphic';
 import { ICollider, CollisionTypes } from './Collider';
+import { Animation } from './Animation';
+import { IAnimatable, Animator } from './Animator';
 import { Colour } from './Colour';
 
 export interface CircleOptions extends GraphicOptions {
@@ -9,12 +11,13 @@ export interface CircleOptions extends GraphicOptions {
   lineWidth?: number;
 }
 
-export class Circle extends Graphic implements IGraphic, ICollider {
+export class Circle extends Graphic implements IGraphic, ICollider, IAnimatable {
   protected readonly collisionType: CollisionTypes;
   protected size: number;
   protected fill: boolean;
   protected colour: Colour;
   protected lineWidth: number;
+  protected animator: Animator;
 
   constructor(options?: CircleOptions) {
     options = options || {};
@@ -25,6 +28,7 @@ export class Circle extends Graphic implements IGraphic, ICollider {
     this.fill = options.fill !== undefined ? options.fill : true;
     this.colour = options.colour || new Colour();
     this.lineWidth = options.lineWidth !== undefined ? options.lineWidth : 0;
+    this.animator = new Animator();
   }
 
   public getCollisionType(): CollisionTypes {
@@ -91,11 +95,45 @@ export class Circle extends Graphic implements IGraphic, ICollider {
     return this.size;
   }
 
+  public setWidth(width: number): void {
+    this.size = width;
+  }
+
   public getHeight(): number {
     return this.size;
   }
 
+  public setHeight(height: number): void {
+    this.size = height;
+  }
+
+  public getAnimator(): Animator {
+    return this.animator;
+  }
+
+  public setAnimator(animator: Animator): void {
+    this.animator = animator;
+  }
+
+  public getAnimation(animationName: string): Animation {
+    let animation: Animation|null = this.animator.getAnimation(animationName);
+    
+    if (animation === null) {
+      animation = new Animation(0, 0, 0, 0, 0);
+      
+      this.animator.setAnimation('', animation);
+    }
+    
+    return animation;
+  }
+
+  public setAnimation(animationName: string, animation: Animation): void {
+    this.animator.setAnimation(animationName, animation);
+  }
+
   public _draw(context: CanvasRenderingContext2D): void {
+    this.animator.animate(this);
+
     context.beginPath();
     context.arc(this.x, this.y, this.size / 2, 0, 2 * Math.PI);
 
