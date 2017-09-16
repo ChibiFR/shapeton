@@ -22,9 +22,11 @@
   },
   "homepage": "https://github.com/ChibiFR/shapeton#readme",
   "dependencies": {
-    "express": "^4.15.4"
+    "express": "^4.15.4",
+    "pixi.js": "^4.5.5"
   },
   "devDependencies": {
+    "@types/pixi.js": "^4.5.3",
     "awesome-typescript-loader": "^3.2.3",
     "babel-minify-webpack-plugin": "^0.2.0",
     "source-map-loader": "^0.2.1",
