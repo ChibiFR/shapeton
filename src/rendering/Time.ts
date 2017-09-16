@@ -5,13 +5,13 @@ export abstract class Time {
   protected static time: number = 0;
 
   public static getDeltaTime(timeFormat?: TimeFormat): number {
-    timeFormat = timeFormat || 's';
+    timeFormat = timeFormat || 'ms';
 
     return timeFormat === 's' ? this.deltaTime / 1000 : this.deltaTime;
   }
 
   public static getTime(timeFormat?: TimeFormat): number {
-    timeFormat = timeFormat || 's';
+    timeFormat = timeFormat || 'ms';
 
     return timeFormat === 's' ? this.time / 1000 : this.time;
   }
