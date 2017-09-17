@@ -25,10 +25,7 @@
     "express": "^4.15.4"
   },
   "devDependencies": {
-    "awesome-typescript-loader": "^3.2.3",
     "babel-minify-webpack-plugin": "^0.2.0",
-    "source-map-loader": "^0.2.1",
-    "typescript": "^2.5.2",
     "webpack": "^3.5.6"
   }
 }
