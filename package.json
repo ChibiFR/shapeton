@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/ChibiFR/shapeton#readme",
   "dependencies": {
+    "babel-plugin-transform-class-properties": "^6.24.1",
     "express": "^4.15.4"
   },
   "devDependencies": {
-    "babel-minify-webpack-plugin": "^0.2.0",
     "webpack": "^3.5.6"
   }
 }
